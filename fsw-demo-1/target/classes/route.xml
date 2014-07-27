@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+    <route>
+        <from uri="switchyard://OrderService"/>
+        <log message="OrderService - message received: ${body}"/>
+        <choice>
+            <when>
+                <simple>${body.zipCode} &lt;= 200</simple>
+                <log message="zipCode less than 200, message: ${body}"/>
+                <to uri="switchyard://ZoneAOrderService"/>
+            </when>
+            <otherwise>
+                <log message="zipCode greater than 200, message: ${body}"/>
+                <to uri="switchyard://ZoneBOrderService"/>
+            </otherwise>
+        </choice>
+    </route>
+</routes>

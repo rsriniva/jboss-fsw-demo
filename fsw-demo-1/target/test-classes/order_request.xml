@@ -1,0 +1,12 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:com.example.switchyard:fsw-demo-1:1.0">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:order>
+            <customerId>100111</customerId>
+            <itemId>945661</itemId>
+            <orderId>1234567890</orderId>
+            <orderNum>10</orderNum>
+            <zipCode>300</zipCode>
+      </urn:order>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order xmlns="urn:com.example.switchyard:fsw-demo-1:1.0">
+      <customerId>100111</customerId>
+      <itemId>945661</itemId>
+      <orderId>1234567890</orderId>
+      <orderNum>10</orderNum>
+      <zipCode>100</zipCode>
+</order>

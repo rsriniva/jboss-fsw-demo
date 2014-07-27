@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:bean="urn:switchyard-component-bean:config:1.1" xmlns:camel="urn:switchyard-component-camel:config:1.1" xmlns:file="urn:switchyard-component-camel-file:config:1.1" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:1.1" xmlns:sy="urn:switchyard-config:switchyard:1.1" xmlns:transform="urn:switchyard-config:transform:1.1" name="fsw-demo-1" targetNamespace="urn:com.example.switchyard:fsw-demo-1:1.0">
+  <sca:composite name="fsw-demo-1" targetNamespace="urn:com.example.switchyard:fsw-demo-1:1.0">
+    <sca:component name="OrderService">
+      <camel:implementation.camel>
+        <camel:xml path="route.xml"/>
+      </camel:implementation.camel>
+      <sca:service name="OrderService">
+        <sca:interface.java interface="com.example.switchyard.fswdemo1.OrderService"/>
+      </sca:service>
+      <sca:reference name="ZoneAOrderService">
+        <sca:interface.java interface="com.example.switchyard.fswdemo1.ZoneAOrderService"/>
+      </sca:reference>
+      <sca:reference name="ZoneBOrderService">
+        <sca:interface.java interface="com.example.switchyard.fswdemo1.ZoneBOrderService"/>
+      </sca:reference>
+    </sca:component>
+    <sca:service name="OrderServicePortType" promote="OrderService/OrderService">
+      <sca:interface.wsdl interface="OrderService.wsdl#wsdl.porttype(OrderServicePortType)"/>
+      <soap:binding.soap name="soap1">
+        <soap:wsdl>OrderService.wsdl</soap:wsdl>
+        <soap:contextPath>fsw-demo-1</soap:contextPath>
+      </soap:binding.soap>
+      <file:binding.file name="file1">
+        <sy:operationSelector operationName="order"/>
+        <file:directory>/Users/jasonpeng/Desktop/orderDir</file:directory>
+        <file:fileName>order.xml</file:fileName>
+        <file:consume/>
+      </file:binding.file>
+    </sca:service>
+    <sca:component name="ZoneAOrderService">
+      <bean:implementation.bean class="com.example.switchyard.fswdemo1.ZoneAOrderServiceBean"/>
+      <sca:service name="ZoneAOrderService">
+        <sca:interface.java interface="com.example.switchyard.fswdemo1.ZoneAOrderService"/>
+      </sca:service>
+    </sca:component>
+    <sca:component name="ZoneBOrderService">
+      <bean:implementation.bean class="com.example.switchyard.fswdemo1.ZoneBOrderServiceBean"/>
+      <sca:service name="ZoneBOrderService">
+        <sca:interface.java interface="com.example.switchyard.fswdemo1.ZoneBOrderService"/>
+      </sca:service>
+    </sca:component>
+  </sca:composite>
+  <sy:transforms>
+    <transform:transform.smooks from="{urn:com.example.switchyard:fsw-demo-1:1.0}order" to="java:com.example.switchyard.fswdemo1.model.Order" type="XML2JAVA" config="smooks/Order_XML.xml"/>
+  </sy:transforms>
+</sy:switchyard>
